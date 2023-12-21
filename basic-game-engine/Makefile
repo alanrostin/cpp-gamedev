@@ -5,11 +5,13 @@ BIN_DIR 	:= bin
 BIN_EXE 	:= $(BIN_DIR)/bgengine
 OUTPUT 		:= $(if $(findstring Windows_NT, $(OS)), $(BIN_EXE).exe, $(BIN_EXE))
 OBJ_DIR 	:= $(BIN_DIR)/obj
-INC_DIRS 	:= -I$(SRC_DIR)
+INC_DIRS 	:= -I$(SRC_DIR) -I$(SDL_DIR)/include
+LIB_DIRS	:= -L$(SDL_DIR)/lib
 SRC_FILES 	:= $(wildcard $(SRC_DIR)/*.cpp)
 H_FILES 	:= $(wildcard $(SRC_DIR)/*.h)
 OBJ_FILES 	:= $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
 CPP_FLAGS 	:= -O3 -std=c++20
+LD_FLAGS	:= -O3 -lSDL2
 MAKEFLAGS 	+= -j8
 
 # Compile the object files and place them in their own directory
@@ -18,7 +20,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(H_FILES)
 
 # Link the object files together to create the final executable
 $(OUTPUT): $(OBJ_FILES) Makefile
-	$(CC) $(OBJ_FILES) -o $(OUTPUT)
+	$(CC) $(LIB_DIRS) $(LD_FLAGS) $(OBJ_FILES) -o $(OUTPUT)
 
 # Compile and link the executable
 all: $(OUTPUT)
