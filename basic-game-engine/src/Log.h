@@ -18,10 +18,14 @@ enum class LogCategory
 
 class Log
 {
+public:
+    // we delete default constructor, copy constructor and 
+    // assignment operator so they cannot be used
     Log() = delete;
     Log(const Log&) = delete;
     Log& operator=(const Log&) = delete;
 
+    // static functions are callable without instance
     static void info(const std::string& message);
     static void error(LogCategory category, const std::string& message);
 };
