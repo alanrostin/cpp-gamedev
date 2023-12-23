@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include "Renderer.h"
 
 class Game
 {
@@ -29,5 +30,6 @@ private:
 	void render();
 
 	Window window;
-	bool isRunning;    
+	bool isRunning;
+    Renderer renderer;
 };

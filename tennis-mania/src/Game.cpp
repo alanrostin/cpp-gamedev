@@ -3,7 +3,8 @@
 bool Game::initialize()
 {
 	bool isWindowInit = window.initialize();
-	return isWindowInit; // Return bool && bool && bool ...to detect error
+	bool isRendererInit = renderer.initialize(window);
+	return isWindowInit && isRendererInit; // return bool && bool && bool ...to detect error
 }
 
 void Game::loop()
@@ -18,12 +19,33 @@ void Game::loop()
 
 void Game::close()
 {
+	renderer.close();
 	window.close();
 	SDL_Quit();
 }
 
 void Game::processInput()
 {
+	// SDL Event
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_QUIT:
+			isRunning = false;
+			break;
+		}
+	}
+
+	// Keyboard state
+	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
+
+	// Escape: quit game
+	if (keyboardState[SDL_SCANCODE_ESCAPE])
+	{
+		isRunning = false;
+	}
 }
 
 void Game::update()
@@ -32,4 +54,7 @@ void Game::update()
 
 void Game::render()
 {
+	renderer.beginDraw();
+
+	renderer.endDraw();
 }

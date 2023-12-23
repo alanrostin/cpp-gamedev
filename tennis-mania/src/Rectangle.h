@@ -1,6 +1,7 @@
 #pragma once
-#include <SDL_rect.h>
+#include <SDL2/SDL_rect.h>
 
+// structs are used to hold data types
 struct Rectangle
 {
     float x;
@@ -8,6 +9,7 @@ struct Rectangle
     float width;
     float height;
 
+    // our struct wraps the SDL structs
     SDL_Rect toSDLRect() const
     {
         return SDL_Rect
